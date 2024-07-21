@@ -1,0 +1,27 @@
+a = 1*2+3*4;
+c = 0;
+if(a > 10) {
+    c = 100;
+}
+for(i = 0; i < 5; i = i + 1) {
+    c = c+1;
+}
+i = 0;
+while(i<10) {
+    c = c+1;
+    i = i+1;
+}
+b = 2*2*2*2*2;
+d = [1,2,[1,4,[5,6,7]]];
+e = d[2][2][1];
+pop(d);
+push(d, 5);
+shift(d);
+unshift(d,3);
+remove(d,1);
+insert(d,7,1);
+f = length(d);
+g = [];
+for(i = 0; i < length(d); i = i + 1) {
+    push(g,1);
+}

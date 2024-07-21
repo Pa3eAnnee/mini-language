@@ -1,0 +1,52 @@
+export const expressions = {
+    expression: [
+        ['e', '$$ = $1;']
+    ],
+    e: [
+        ['LENGTH ( e )', '$$ = { type: "LENGTH", array: $3 };'],
+        ['GETFROM ( e )', '$$ = { type: "GETFROM", domain: $3 };'],
+        ['ONLY_TAG ( e , e )', '$$ = { type: "ONLY_TAG", array: $3, tag: $5 };'],
+        ['ONLY_HAS_ATTR ( e , e )', '$$ = { type: "ONLY_HAS_ATTR", array: $3, attr: $5 };'],
+        ['ONLY_IS_ATTR ( e , e , e )', '$$ = { type: "ONLY_IS_ATTR", array: $3, attr: $5, value: $7 };'],
+        ['ONLY_CONTAINS_TEXT ( e , e )', '$$ = { type: "ONLY_CONTAINS_TEXT", array: $3, text: $5 };'],
+        ['EXTRACT_CONTENT ( e )', '$$ = { type: "EXTRACT_CONTENT", array: $3 };'],
+        ['SPLIT_HTML ( e )', '$$ = { type: "SPLIT_HTML", array: $3 };'],
+        ['JOIN_HTML ( e )', '$$ = { type: "JOIN_HTML", array: $3 };'],
+        ['GET_HTML ( e )', '$$ = { type: "GET_HTML", page: $3 };'],
+        ['GET_URL ( e )', '$$ = { type: "GET_URL", page: $3 };'],
+        ['IS_TAG ( e , e )', '$$ = { type: "IS_TAG", element: $3, tag: $5 };'],
+        ['HAS_ATTR ( e , e )', '$$ = { type: "HAS_ATTR", element: $3, attr: $5 };'],
+        ['IS_ATTR ( e , e , e )', '$$ = { type: "IS_ATTR", element: $3, attr: $5, value: $7 };'],
+        ['CONTAINS_TEXT ( e , e )', '$$ = { type: "CONTAINS_TEXT", element: $3, text: $5 };'],
+        ['CREATE_OBJECT ( )', '$$ = { type: "CREATE_OBJECT" };'],
+        ['GET_PROPERTY ( e , e )', '$$ = { type: "GET_PROPERTY", object: $3, key: $5 };'],
+        ['CONCAT ( e , e )', '$$ = { type: "CONCAT", string1: $3, string2: $5 };'],
+        ['SUBSTRING ( e , e , e )', '$$ = { type: "SUBSTRING", string: $3, start: $5, end: $7 };'],
+        ['REPLACE ( e , e , e )', '$$ = { type: "REPLACE", string: $3, searchValue: $5, replaceValue: $7 };'],
+        ['ARRAY_CONTAINS ( e , e )', '$$ = { type: "ARRAY_CONTAINS", array: $3, value: $5 };'],
+        ['e + e', '$$ = {type: "+", val1: $1, val2: $3};'],
+        ['e - e', '$$ = {type: "-", val1: $1, val2: $3};'],
+        ['e * e', '$$ = {type: "*", val1: $1, val2: $3};'],
+        ['e / e', '$$ = {type: "/", val1: $1, val2: $3};'],
+        ['e < e', '$$ = {type: "<", val1: $1, val2: $3};'],
+        ['e > e', '$$ = {type: ">", val1: $1, val2: $3};'],
+        ['e <= e', '$$ = {type: "<=", val1: $1, val2: $3};'],
+        ['e >= e', '$$ = {type: ">=", val1: $1, val2: $3};'],
+        ['e == e', '$$ = {type: "==", val1: $1, val2: $3};'],
+        ['e != e', '$$ = {type: "!=", val1: $1, val2: $3};'],
+        ['e && e', '$$ = {type: "&&", val1: $1, val2: $3};'],
+        ['e || e', '$$ = {type: "||", val1: $1, val2: $3};'],
+        ['! e', '$$ = {type: "!", val1: $2};'],
+        ['( e )', '$$ = $2;'],
+        ['NUMBER', '$$ = Number(yytext);'],
+        ['VARNAME', '$$ = {type: "VARNAME", name: yytext};'],
+        ['[ ]', '$$ = {type: "ARRAY", elements: []};'],
+        ['[ array_elements ]', '$$ = {type: "ARRAY", elements: $2};'],
+        ['e [ e ]', '$$ = {type: "ARRAY_ACCESS", array: $1, index: $3};'],
+        ['STRING', '$$ = yytext.slice(1, -1).replace(/\\"/g, \'"\').replace(/\\\\n/g, \'\\n\');']
+    ],
+    array_elements: [
+        ['e', '$$ = [$1];'],
+        ['array_elements , e', '$$ = $1.concat([$3]);']
+    ]
+};

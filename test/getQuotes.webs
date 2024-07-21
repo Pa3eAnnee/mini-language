@@ -1,0 +1,31 @@
+url = "https://quotes.toscrape.com/";
+pages = getFrom(url);
+quotesByPage = createObject();
+globalQuotes = [];
+
+for(i = 0; i < length(pages); i = i + 1) {
+    html = getHtml(pages[i]);
+    quotesDiv = splitHtml(onlyIsAttr(html, "class", "quote"));
+    quotes = [];
+    for(j = 0; j < length(quotesDiv);j = j + 1) {
+        text = extractContent(onlyIsAttr(quotesDiv[j],"class", "text"));
+        if(!arrayContains(quotes, text)) {
+            push(quotes, text);
+        }
+        if(!arrayContains(globalQuotes, text)) {
+            push(globalQuotes, text);
+        }
+    }
+    setProperty(quotesByPage, getUrl(pages[i]), quotes);
+}
+
+sqlText = " ";
+sqlBegin = "INSERT INTO QUOTES(quote) VALUES('";
+sqlEnd = "');\n";
+
+for(i = 0; i < length(globalQuotes); i = i + 1) {
+    sqlText = sqlText + sqlBegin + replace(globalQuotes[i], "'", "\'") + sqlEnd;
+}
+
+saveAsJson(quotesByPage, "./getQuotes/quotesByPage.json");
+saveAsText(sqlText, "./getQuotes/quotes.sql");

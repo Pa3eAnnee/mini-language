@@ -1,0 +1,14 @@
+url = "https://quotes.toscrape.com/";
+obj = createObject();
+setProperty(obj, "name", "Quotes");
+obj2 = createObject();
+setProperty(obj2, "url", url);
+setProperty(obj, "web", obj2);
+saveAsJson(obj, "output.json");
+
+str = "Hello, ";
+str2 = "World!";
+greeting = concat(str, str2);
+substring_greeting = substring(greeting, 0, 5);
+replaced_greeting = replace(greeting, "World", "Mini-Language");
+saveAsText(replaced_greeting, "greeting.txt");

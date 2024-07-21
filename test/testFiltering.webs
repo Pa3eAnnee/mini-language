@@ -1,0 +1,59 @@
+data = getFrom("https://quotes.toscrape.com/");
+filteredByTag = [];
+filteredByAttr = [];
+textContent = [];
+filteredByAttrValue = [];
+divs = [];
+splitted = [];
+joined = [];
+isDiv = [];
+hasClassAttr = [];
+isContainer = [];
+containsQuotes = [];
+pagesContent = createObject();
+
+for(i = 0; i < length(data); i = i+1) {
+    html = getHtml(data[i]);
+    url = getUrl(data[i]);
+    setProperty(pagesContent, url, html);
+    push(filteredByTag, onlyTag(html, "h1"));
+    push(filteredByAttr,  onlyHasAttr(filteredByTag[i], "href"));
+    push(textContent, extractContent(filteredByAttr[i]));
+    push(filteredByAttrValue, onlyIsAttr(filteredByAttr[i], "href", "/"));
+    push(divs, onlyTag(html, "div"));
+    push(splitted, splitHtml(divs[i]));
+    for(j=0;j<length(splitted[i]); j=j+1) {
+        if(isTag(splitted[i][j], "div")) {
+            push(isDiv, splitted[i][j]);
+            if(hasAttr(splitted[i][j], "class")) {
+                push(hasClassAttr, splitted[i][j]);
+            }
+            if(isAttr(splitted[i][j], "class", "container")) {
+                push(isContainer, splitted[i][j]);
+            }
+            if(containsText(splitted[i][j], "Quotes to Scrape")) {
+                push(containsQuotes, splitted[i][j]);
+            }
+        }
+    }
+    push(joined, joinHtml(splitted[i]));
+}
+
+
+saveAsJson(pagesContent, "./filteringOutput/pagesContent.json");
+
+finalJson = createObject();
+setProperty(finalJson, "data", data);
+setProperty(finalJson, "filteredByTag", filteredByTag);
+setProperty(finalJson, "filteredByAttr", filteredByAttr);
+setProperty(finalJson, "textContent", textContent);
+setProperty(finalJson, "filteredByAttrValue", filteredByAttrValue);
+setProperty(finalJson, "divs", divs);
+setProperty(finalJson, "splitted", splitted);
+setProperty(finalJson, "joined", joined);
+setProperty(finalJson, "isDiv", isDiv);
+setProperty(finalJson, "hasClassAttr", hasClassAttr);
+setProperty(finalJson, "isContainer", isContainer);
+setProperty(finalJson, "containsQuotes", containsQuotes);
+
+saveAsJson(finalJson, "./filteringOutput/result.json");
